@@ -47,8 +47,7 @@ Office hours: TBA
 
 Programming skills and an introductory course on discrete structures and / or
 algorithms (e.g., CS 2800 or CS 4820). Homeworks will require good comfort with
-Python programming. We will also have some SQL but you be able to learn what is
-needed. 
+Python programming.
 
 If you are in doubt, talk to instructor.
 
