@@ -88,8 +88,9 @@ hope to zoom and record lectures in case you have to attend remotely due to
 illness or miss class due to interviews, illness, or the like. Or in case you
 want to review them later.  Recordings will be available on Canvas.
 
-We will take attendance at class, please notify us if you will miss class or
-must attend remotely due to illness. 
+Participation scores will be based on contributing questions ahead of guest
+lectures, as well as contributing to in-class discussions. 
+
 
 
 
