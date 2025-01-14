@@ -33,7 +33,7 @@ Office hours: TBA
 
 * Course schedule ([Google spreadsheet](https://docs.google.com/spreadsheets/d/1mrZBajxnAd-2T20SQ8vEQPFe_OfJxgf3SHRs_5uJePU/edit?usp=sharing)): A preliminary schedule is available. The schedule may evolve, but we will try to stick to it particularly with respect to the homeworks.
 
-* Course management system ([Canvas](https://canvas.cornell.edu/courses/73990)): We will be using Cornell's Canvas for zoom links, lecture recordings, and homeworks. 
+* Course management system ([Canvas](https://canvas.cornell.edu/courses/73990)): We will be using Cornell's Canvas for homeworks. 
 
 
 ### Pre-requisites
@@ -83,10 +83,8 @@ Homeworks are due on the due date by 11:59:59pm EST. You can use in
 total 3 late days throughout the semester. 
 
 The bulk of material will be delivered via lecture, as such you won't get much
-out of the class if you skip lectures and won't be prepared for homeworks.  We
-hope to zoom and record lectures in case you have to attend remotely due to
-illness or miss class due to interviews, illness, or the like. Or in case you
-want to review them later.  Recordings will be available on Canvas.
+out of the class if you skip lectures and won't be prepared for homeworks. We
+will make slides available, but do not plan to record lectures.  
 
 Participation scores will be based on contributing questions ahead of guest
 lectures, as well as contributing to in-class discussions. 
