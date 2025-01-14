@@ -95,8 +95,18 @@ The class will involve a combination of lectures, homeworks, participation
 credit, and opportunities for extra credit. You'll be graded according to the
 following:
 
-* Homeworks:  80% (each of three homeworks will be worth an equal amount)
-* Participation:  20% 
+1: T&S case study (individual) 20%
+Students will choose a digital service and conduct research into the reporting mechanisms, moderation policies, algorithmic solutions and product interventions aimed at reducing interpersonal harms. With this information they will create a comprehensive overview of the T&S setup at that service that includes a diagram that pieces all the elements together.
+
+2: Policy proposal (group) 30%
+Students will develop a policy document that describes a Trust & Safety intervention on the platform BlueSky. This will include a definition of the type of content they want to encourage or discourage, a threat modeling assessment, and a full set of prevention and mitigation measures including product design, algorithmic interventions and manual enforcement guidelines. 
+
+3: Automated moderator (group) 30%
+Students will build a labeler on BlueSky that automatically labels certain types of accounts / posts.
+
+Class participation 20%
+Students will be expected to prepare substantive questions for guest lecturers that connect to themes discussed in class. There will also be a handful of other light-weight assignments, most notably readings that you will be asked to discuss at the beginning of most classes.
+
 
 Grades will not be curved, so everyone could get an A in the class if everyone
 does well. 
