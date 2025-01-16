@@ -18,7 +18,7 @@ Classroom: Bloomberg 165  (B165)
 
 Lectures: Tu/Th 11:40 AM - 12:55 PM
 
-Instructors: ([Alexios Mantzarlis](https://www.mantzarlis.com/)) and ([Tom Ristenpart](https://rist.tech.cornell.edu))
+Instructors: [Alexios Mantzarlis](https://www.mantzarlis.com/) and [Tom Ristenpart](https://rist.tech.cornell.edu)
 
 Office hours: By appointment
 
