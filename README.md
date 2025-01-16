@@ -18,8 +18,7 @@ Classroom: Bloomberg 165  (B165)
 
 Lectures: Tu/Th 11:40 AM - 12:55 PM
 
-Instructors: Alexios Mantzarlis (https://www.mantzarlis.com/) and Tom Ristenpart
-(https://rist.tech.cornell.edu)
+Instructors: ([Alexios Mantzarlis](https://www.mantzarlis.com/)) and ([Tom Ristenpart](https://rist.tech.cornell.edu))
 
 Office hours: By appointment
 
@@ -30,7 +29,7 @@ Office hours: TBA
 
 ### Course online resources
 
-* Course website ([Github](https://github.com/tomrist/cs5342-spring2025)): This
+* Course website ([Github](https://github.com/cornelltech/cs5342-spring2025)): This
   Github repository will include general information about the course and will
   be updated to include lecture material and slides throughout the semester.
 
