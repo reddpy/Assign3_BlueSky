@@ -41,6 +41,13 @@ Office hours: TBA
 * Course management system ([Canvas](https://canvas.cornell.edu/courses/73990)):
   We will be using Cornell's Canvas for homeworks. 
 
+* Class Q/A Forum ([EdStem](https://edstem.org/)): For online discussion and handling student
+questions, we will use Edstem, which provides a forum interface.
+
+* Assignment Submission ([Gradescope](https://www.gradescope.com/)): Students will submit assignments via Gradescope. All enrolled
+  students should have received an email indicating they've been added to the
+  class on Gradescope.
+
 
 ### Pre-requisites
 
