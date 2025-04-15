@@ -1,0 +1,14 @@
+{
+  "name": "bluesky-assign3",
+  "version": "1.0.0",
+  "description": "You'll find the starter code for Assignment 3 in this repository. More detailed instructions can be found in the assignment spec.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@skyware/labeler": "^0.2.0"
+  }
+}
