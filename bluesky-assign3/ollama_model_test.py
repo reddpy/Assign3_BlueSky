@@ -21,7 +21,6 @@ def get_llm_response(prompt, model_name="gemma3:4b"):
             model=model_name,
             prompt='return 0 if dog, 1 if not. I only want a binary response',
             images=[img_str]
-            # prompt=payload,
         )
         
         return response['response']

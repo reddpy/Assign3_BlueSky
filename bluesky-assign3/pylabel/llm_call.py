@@ -4,7 +4,7 @@ from io import BytesIO
 from PIL import Image
 
 def get_llm_response_text_only(prompt):
-    conditional = 'if this is innapropriate for a 14 year old boy/girl to read return 0 if not return 1. I only want a binary response, either 0 or 1'
+    conditional = 'if this is innapropriate for a 14 year old boy/girl to read return 1 if not return 0. I only want a binary response, either 0 or 1'
     try:
         response = ollama.generate(
             model="gemma3:4b",
@@ -16,7 +16,7 @@ def get_llm_response_text_only(prompt):
         return f"Error: {str(e)}"
     
 def get_llm_response(prompt, post_images):
-    conditional = 'if this is innapropriate for a 14 year old boy/girl to read return 0 if not return 1. I only want a binary response, either 0 or 1'
+    conditional = 'if this is innapropriate for a 14 year old boy/girl to read return 1 if not return 0. I only want a binary response, either 0 or 1'
     try:
         response = ollama.generate(
             model="gemma3:4b",
@@ -31,9 +31,9 @@ def get_llm_response(prompt, post_images):
 def encode_images(images):
     result = []
     for img in images:
-        image = Image.open(img)
+        # image = Image.open(img)
         buffered = BytesIO()
-        image.save(buffered, format='JPEG')
+        img.save(buffered, format='JPEG')
         result.append(base64.b64encode(buffered.getvalue()).decode('utf-8'))
 
     return result

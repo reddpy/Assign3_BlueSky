@@ -2,11 +2,11 @@
 
 from typing import List
 from atproto import Client
-from .label import post_from_url
-from .llm_call import get_llm_response, encode_images
+from label import post_from_url
+from llm_call import get_llm_response, encode_images, get_llm_response_text_only
+from video_functions import get_video_duration, extract_frames
 import pandas as pd
 import os
-import re
 import requests
 from PIL import Image
 import io
@@ -20,26 +20,34 @@ class AutomatedLabeler:
         self.client = client
         
         ## T&S Labels
-        posts_path = os.path.join(input_dir, 'bluesky_data/posts.csv')
+        # posts_path = os.path.join(input_dir, 'bluesky_data/posts.csv')
+        posts_path = os.path.join('bluesky-assign3', 'labeler-inputs', 'bluesky_data', 'posts.csv')
 
         self.urls = pd.read_csv(posts_path)['post_url'].tolist()
 
     def moderate_post(self, url: str) -> List[str]:
-        """
-        Apply moderation to the post specified by the given url
-        """
 
         labels = set()
 
         post = post_from_url(self.client, url)
         post_text = post.value.text
         images = self.get_post_media(url)
+
+        # return images
+
         if images:
             encode_images(images)
+            response = get_llm_response(post_text, images)
         else:
-            pass
+            response = get_llm_response_text_only(post_text)
 
+        print(response)
+        return response
 
+        if response:
+            labels.add(LABEL)
+
+            os.rmdir('./temp')
         return list(labels) if labels is not set() else []
 
     def get_post_media(self, url: str):
@@ -65,5 +73,33 @@ class AutomatedLabeler:
         
         elif hasattr(post.thread.post.embed, 'playlist'):
             video_url = getattr(post.thread.post.embed, 'playlist', [])
+            video_duration = get_video_duration(video_url)
+            frames = extract_frames(video_url, video_duration)
 
-            
+            return frames
+        
+        return []
+
+if __name__ == '__main__':
+    from atproto import Client
+    from dotenv import load_dotenv
+
+    
+
+    load_dotenv(override=True)
+    USERNAME = os.getenv("USERNAME")
+    PW = os.getenv("PW")
+    client = Client()
+    labeler_client = None
+    client.login(USERNAME, PW)
+
+    labeler = AutomatedLabeler(client, '.')
+
+    url, expected_labels = 'https://bsky.app/profile/gothiccmoms.bsky.social/post/3lnm7oq4bqs2x', 'Pot'
+    # url, expected_labels = 'https://bsky.app/profile/sweetladykitsune.bsky.social/post/3lnqquj5fts2h', 'Pot'
+    labels = labeler.moderate_post(url)
+    print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
+    
+
+
+

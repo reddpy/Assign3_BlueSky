@@ -36,15 +36,25 @@ def main():
 
     urls = pd.read_csv(args.input_urls)
     num_correct, total = 0, urls.shape[0]
-    for _index, row in urls.iterrows():
-        url, expected_labels = row["URL"], json.loads(row["Labels"])
-        labels = labeler.moderate_post(url)
-        if sorted(labels) == sorted(expected_labels):
-            num_correct += 1
-        else:
-            print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
-        if args.emit_labels and (len(labels) > 0):
-            label_post(client, labeler_client, url, labels)
+    # for _index, row in urls.iterrows():
+    #     url, expected_labels = row["URL"], json.loads(row["Labels"])
+    #     labels = labeler.moderate_post(url)
+    #     if sorted(labels) == sorted(expected_labels):
+    #         num_correct += 1
+    #     else:
+    #         print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
+    #     if args.emit_labels and (len(labels) > 0):
+    #         label_post(client, labeler_client, url, labels)
+
+    url, expected_labels = 'https://bsky.app/profile/gothiccmoms.bsky.social/post/3lnm7oq4bqs2x', 'Pot'
+    labels = labeler.moderate_post(url)
+    if sorted(labels) == sorted(expected_labels):
+        num_correct += 1
+    else:
+        print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
+    if args.emit_labels and (len(labels) > 0):
+        label_post(client, labeler_client, url, labels)
+    
     print(f"The labeler produced {num_correct} correct labels assignments out of {total}")
     print(f"Overall ratio of correct label assignments {num_correct/total}")
 
