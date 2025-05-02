@@ -36,16 +36,32 @@ def main():
 
     urls = pd.read_csv(args.input_urls)
     num_correct, total = 0, urls.shape[0]
+    fp, fn = 0, 0
+    tp, tn = 0, 0
     for _index, row in urls.iterrows():
         url, expected_labels = row["URL"], json.loads(row["Labels"])
         labels = labeler.moderate_post(url)
         if sorted(labels) == sorted(expected_labels):
             num_correct += 1
+
         else:
             print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
+
+        if labels == expected_labels:
+            if labels != []:
+                tp += 1
+            else:
+                tn += 1
+        else:
+            if labels != []:
+                fn += 1
+            else:
+                fp += 1
+        
         if args.emit_labels and (len(labels) > 0):
             label_post(client, labeler_client, url, labels)
     print(f"The labeler produced {num_correct} correct labels assignments out of {total}")
+    print(f'True P: {tp}, False P: {fp}, True N: {tn}, False N: {fn}')
     print(f"Overall ratio of correct label assignments {num_correct/total}")
 
 

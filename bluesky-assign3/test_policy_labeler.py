@@ -8,7 +8,9 @@ import pandas as pd
 from atproto import Client
 from dotenv import load_dotenv
 
-from pylabel import AutomatedLabeler, label_post, did_from_handle
+from pylabel import AutomatedLabeler, label_post, did_from_handle, PolicyLabeler
+
+from tqdm import tqdm
 
 load_dotenv(override=True)
 USERNAME = os.getenv("USERNAME")
@@ -32,30 +34,37 @@ def main():
     if args.emit_labels:
         labeler_client = client.with_proxy("atproto_labeler", did)
 
-    labeler = AutomatedLabeler(client, args.labeler_inputs_dir)
+    labeler = PolicyLabeler(client, args.labeler_inputs_dir)
 
     urls = pd.read_csv(args.input_urls)
     num_correct, total = 0, urls.shape[0]
-    # for _index, row in urls.iterrows():
-    #     url, expected_labels = row["URL"], json.loads(row["Labels"])
-    #     labels = labeler.moderate_post(url)
-    #     if sorted(labels) == sorted(expected_labels):
-    #         num_correct += 1
-    #     else:
-    #         print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
-    #     if args.emit_labels and (len(labels) > 0):
-    #         label_post(client, labeler_client, url, labels)
+    fp, fn = 0, 0
+    tp, tn = 0, 0
+    for _index, row in urls.iterrows():
+        url, expected_labels = row["URL"], json.loads(row["Labels"])
+        labels = labeler.moderate_post(url)
+        if sorted(labels) == sorted(expected_labels):
+            num_correct += 1
+        else:
+            print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
+        if args.emit_labels and (len(labels) > 0):
+            label_post(client, labeler_client, url, labels)
 
-    url, expected_labels = 'https://bsky.app/profile/gothiccmoms.bsky.social/post/3lnm7oq4bqs2x', 'Pot'
-    labels = labeler.moderate_post(url)
-    if sorted(labels) == sorted(expected_labels):
-        num_correct += 1
-    else:
-        print(f"For {url}, labeler produced {labels}, expected {expected_labels}")
-    if args.emit_labels and (len(labels) > 0):
-        label_post(client, labeler_client, url, labels)
+        print(f'label: {labels}, url: {url}')
     
+        if labels == expected_labels:
+            if labels != []:
+                tp += 1
+            else:
+                tn += 1
+        else:
+            if labels != []:
+                fn += 1
+            else:
+                fp += 1
+        
     print(f"The labeler produced {num_correct} correct labels assignments out of {total}")
+    print(f'True P: {tp}, False P: {fp}, True N: {tn}, False N: {fn}')
     print(f"Overall ratio of correct label assignments {num_correct/total}")
 
 

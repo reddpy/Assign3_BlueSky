@@ -20,7 +20,7 @@ def get_video_duration(playlist_url):
     
     return sum(segment.duration for segment in playlist.segments)
 
-def extract_frames(video_url, video_duration, output_dir="./emp", num_frames=5):
+def extract_frames(video_url, video_duration, output_dir="./temp", num_frames=5):
     os.makedirs(output_dir, exist_ok=True)
     
     print(f"Extracting {num_frames} frames from {video_url}")
@@ -48,9 +48,6 @@ def extract_frames(video_url, video_duration, output_dir="./emp", num_frames=5):
             text=True
         )
 
-        image_data = Image.open(output_file).convert('RGB')
-        frames.append(image_data)
-            
     return frames
 
 def main():

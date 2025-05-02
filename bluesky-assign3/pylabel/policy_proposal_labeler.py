@@ -2,26 +2,23 @@
 
 from typing import List
 from atproto import Client
-from label import post_from_url
-from llm_call import get_llm_response, encode_images, get_llm_response_text_only
-from video_functions import get_video_duration, extract_frames
+from .label import post_from_url
+from .llm_call import get_llm_response
+from .video_functions import get_video_duration, extract_frames
 import pandas as pd
 import os
 import requests
-from PIL import Image
-import io
 
 LABEL = 'Potentially Inappropriate'
 
-class AutomatedLabeler:
+class PolicyLabeler:
     """Automated labeler implementation"""
 
     def __init__(self, client: Client, input_dir):
         self.client = client
         
         ## T&S Labels
-        # posts_path = os.path.join(input_dir, 'bluesky_data/posts.csv')
-        posts_path = os.path.join('bluesky-assign3', 'labeler-inputs', 'bluesky_data', 'posts.csv')
+        posts_path = os.path.join(input_dir, 'bluesky_data/posts.csv')
 
         self.urls = pd.read_csv(posts_path)['post_url'].tolist()
 
@@ -33,21 +30,17 @@ class AutomatedLabeler:
         post_text = post.value.text
         images = self.get_post_media(url)
 
-        # return images
+        response = get_llm_response(post_text)
 
-        if images:
-            encode_images(images)
-            response = get_llm_response(post_text, images)
-        else:
-            response = get_llm_response_text_only(post_text)
-
-        print(response)
-        return response
-
-        if response:
+        if response == '1':
             labels.add(LABEL)
 
-            os.rmdir('./temp')
+        if os.path.exists('./temp') and os.listdir('./temp'):
+            for item in os.listdir('./temp'):
+                item_path = os.path.join('./temp', item)
+                if os.path.isfile(item_path):
+                    os.remove(item_path)
+
         return list(labels) if labels is not set() else []
 
     def get_post_media(self, url: str):
@@ -59,17 +52,19 @@ class AutomatedLabeler:
         post = self.client.app.bsky.feed.get_post_thread(
             {'uri': f'at://{author}/app.bsky.feed.post/{post_id}'}
         )
+        os.makedirs('./temp', exist_ok=True)
 
         if hasattr(post.thread.post.embed, 'images'):
             img_embeds = getattr(post.thread.post.embed, 'images', [])
 
-            for img in img_embeds:
+            for i, img in enumerate(img_embeds):
                 image_url = img.fullsize
                 response = requests.get(image_url)
-                image_data = Image.open(io.BytesIO(response.content)).convert('RGB')
-                images.append(image_data)
+                
+                filename = f'./temp/image_{i}.jpg'
+                with open(filename, 'wb') as f:
+                        f.write(response.content)
 
-            return images
         
         elif hasattr(post.thread.post.embed, 'playlist'):
             video_url = getattr(post.thread.post.embed, 'playlist', [])
@@ -93,7 +88,7 @@ if __name__ == '__main__':
     labeler_client = None
     client.login(USERNAME, PW)
 
-    labeler = AutomatedLabeler(client, '.')
+    labeler = PolicyLabeler(client, '.')
 
     url, expected_labels = 'https://bsky.app/profile/gothiccmoms.bsky.social/post/3lnm7oq4bqs2x', 'Pot'
     # url, expected_labels = 'https://bsky.app/profile/sweetladykitsune.bsky.social/post/3lnqquj5fts2h', 'Pot'
