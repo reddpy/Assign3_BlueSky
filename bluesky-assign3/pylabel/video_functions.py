@@ -7,6 +7,11 @@ from PIL import Image
 FFMPEG_PATH = r'C:\Users\harry\Downloads\tns\Assign3_BlueSky\.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe'
 
 def get_video_duration(playlist_url):
+    """
+        function to get the duraction via the m3u8 streaming format.
+        recursively call the function to construct the video becuase
+        m3u8 format has many video types. 
+    """
     playlist = m3u8.load(playlist_url)
     
     if playlist.is_variant:
@@ -21,6 +26,11 @@ def get_video_duration(playlist_url):
     return sum(segment.duration for segment in playlist.segments)
 
 def extract_frames(video_url, video_duration, output_dir="./temp", num_frames=5):
+    """
+        extract the video into five frames that are evenly distributed 
+        from the length of the video. 
+    """
+    
     os.makedirs(output_dir, exist_ok=True)
     
     print(f"Extracting {num_frames} frames from {video_url}")
@@ -39,14 +49,14 @@ def extract_frames(video_url, video_duration, output_dir="./temp", num_frames=5)
             '-frames:v', '1',  
             '-q:v', '31',  
             output_file
-        ]
+        ] #ffmpeg command line call construction
 
         result = subprocess.run(
             cmd, 
             stdout=subprocess.PIPE, 
             stderr=subprocess.PIPE,
             text=True
-        )
+        ) #run ffmpeg process
 
     return frames
 

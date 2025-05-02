@@ -28,13 +28,13 @@ class PolicyLabeler:
 
         post = post_from_url(self.client, url)
         post_text = post.value.text
-        images = self.get_post_media(url)
 
         response = get_llm_response(post_text)
 
         if response == '1':
             labels.add(LABEL)
 
+        #clean up temporary media files
         if os.path.exists('./temp') and os.listdir('./temp'):
             for item in os.listdir('./temp'):
                 item_path = os.path.join('./temp', item)
@@ -44,7 +44,8 @@ class PolicyLabeler:
         return list(labels) if labels is not set() else []
 
     def get_post_media(self, url: str):
-        images = []
+        
+        #destructure url
         url_parts = url.split('/')
         author = url_parts[-3]
         post_id = url_parts[-1]
@@ -54,6 +55,7 @@ class PolicyLabeler:
         )
         os.makedirs('./temp', exist_ok=True)
 
+        #parse through images from the thread post
         if hasattr(post.thread.post.embed, 'images'):
             img_embeds = getattr(post.thread.post.embed, 'images', [])
 
@@ -65,7 +67,7 @@ class PolicyLabeler:
                 with open(filename, 'wb') as f:
                         f.write(response.content)
 
-        
+        #if its a playlist type with video, put through video extraction
         elif hasattr(post.thread.post.embed, 'playlist'):
             video_url = getattr(post.thread.post.embed, 'playlist', [])
             video_duration = get_video_duration(video_url)

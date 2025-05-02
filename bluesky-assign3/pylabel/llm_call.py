@@ -40,6 +40,7 @@ Return ONLY the single digit "1" or "0" without explanation."""
 
     folder = './temp'
 
+    #read from temp folder of all the images
     if os.path.exists(folder) and os.listdir(folder):
         image_files = [f for f in os.listdir(folder) if f.lower().endswith(('jpg'))]
 
@@ -53,6 +54,7 @@ Return ONLY the single digit "1" or "0" without explanation."""
                 encoded_images.append(img_str)
 
     try:
+        #utilize gemma3 foundational model
         response = ollama.generate(
             model="gemma3:4b",
             prompt=prompt + conditional,
